@@ -19,17 +19,6 @@ python app.py
 ```
 
 
-## TODO:
-https://github.com/confluentinc/confluent-kafka-python/blob/master/examples/adminapi.py
-- fetch topic offsets?
-  https://github.com/confluentinc/confluent-kafka-python/blob/master/examples/get_watermark_offsets.py
-
-- fetch consumer lags?
-  https://medium.com/@satadru1998/monitoring-kafka-topic-consumer-lag-efficiently-using-python-airflow-435e9651c4f1#:~:text=Consumer%20lag%20refers%20to%20the,to%20the%20latest%20message%20produced.
-
-- consider schema registry monitoring too
-
-
 ## Example OpenTelemetry response
 ```yaml
 # Confluent Cloud heartbeat metrics
@@ -82,4 +71,13 @@ heartbeat_connection_latency_ms{broker=3, cluster_id=lkc-z306v3, broker_ip=52.44
 ...
 ```
 
-- it's expected to get the "Offset out of range" errors on initial startup.
+It's expected to get the "Offset out of range" errors on initial startup.
+
+
+## TODO:
+- [fetch topic offsets](https://github.com/confluentinc/confluent-kafka-python/blob/master/examples/get_watermark_offsets.py)
+
+- [fetch consumer group lags](https://medium.com/@satadru1998/monitoring-kafka-topic-consumer-lag-efficiently-using-python-airflow-435e9651c4f1)
+
+- consider schema registry monitoring too?
+
