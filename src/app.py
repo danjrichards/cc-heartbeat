@@ -8,16 +8,16 @@ from check_connectivity import checkConnectivity
 from producer import produce
 from consumer import consume
 from prom_exporter import promExporter
-from log_config import logger, levels
+from log_config import configureLogging
+import logging
 import threading
 
 async def main():
     conf = readConfig("config.ini")
     # TODO: support multiple cluster configs
 
-    if "log.level" in conf["admin"]:
-        ll = levels.get(conf["admin"]["log.level"])
-    log = logger(log_name=__name__, log_level=ll or levels.get('INFO')) # type: ignore
+    configureLogging(conf)
+    log = logging.getLogger('main')
     
     log.info(f"Starting cc-heartbeat against {conf['default']['bootstrap.servers']}")
 

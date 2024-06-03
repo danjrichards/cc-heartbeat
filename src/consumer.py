@@ -1,11 +1,11 @@
 from confluent_kafka import Consumer
 from time import time, sleep
-from log_config import logger
+import logging
 import json
 
 
 def consume(config, store):
-    log = logger(__name__)
+    log = logging.getLogger(__name__)
     log.info('consumer started')
 
     # loop = asyncio.get_event_loop()

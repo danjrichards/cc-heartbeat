@@ -1,4 +1,4 @@
-from log_config import logger
+import logging
 from time import time, sleep
 
 
@@ -7,7 +7,7 @@ def checkMetadata(adminApi, store):
     Re-fetch metadata and log any changes
     """
     period = int(store.get('config')["admin"]["check.metadata.period.seconds"] or 60)
-    log = logger(__name__)
+    log = logging.getLogger(__name__)
     log.info(f"checkMetadata started - will run every {period} seconds")
 
     while True:

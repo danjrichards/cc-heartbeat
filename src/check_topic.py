@@ -1,7 +1,7 @@
 from confluent_kafka.admin import NewTopic
 from confluent_kafka import KafkaError
-from log_config import logger
 from time import time, sleep
+import logging
 import sys
 
 
@@ -10,7 +10,7 @@ def checkTopic(adminApi, store):
     Create or update the heartbeat topic
     """
     period = int(store.get('config')["admin"]["check.topic.period.seconds"] or 3600)
-    log = logger(__name__)
+    log = logging.getLogger(__name__)
     log.info(f"checkTopic started - will run every {period} seconds")
 
     while True:

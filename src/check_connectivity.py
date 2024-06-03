@@ -1,6 +1,6 @@
 import asyncio
+import logging
 from time import time, sleep
-from log_config import logger
 
 
 def checkConnectivity(store):
@@ -13,7 +13,7 @@ def checkConnectivity(store):
 
 async def checkConnectivityAsync(store):
     period = int(store.get('config')["admin"]["check.connectivity.period.seconds"] or 5)
-    log = logger(__name__)
+    log = logging.getLogger(__name__)
     log.info(f"checkConnectivity started - will run every {period} seconds")
     loop = asyncio.get_event_loop()
     timeout = 2

@@ -2,13 +2,13 @@ import socket
 import json
 from confluent_kafka import Producer
 from time import time, sleep
-from log_config import logger
+import logging
 import sys
 
 
 def produce(config, store):
     period = int(config['admin']['produce.period.seconds'] or 1)
-    log = logger(__name__)
+    log = logging.getLogger(__name__)
     log.info(f"producer started - messages will be sent every {period} seconds")
 
     def acked(err, msg):

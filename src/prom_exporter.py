@@ -1,11 +1,11 @@
 from aiohttp import web
-from log_config import logger
+import logging
 
 
 async def promExporter(store):
     host = store.get('config')['admin']['metrics.listener.host'] or None    # if host is None aiohttp will listen on all interfaces
     port = store.get('config')['admin']['metrics.listener.port'] or 8080
-    log = logger(__name__)
+    log = logging.getLogger(__name__)
     log.info(f"promExporter started - listening on {host}:{port}")
 
     routes = web.RouteTableDef()
