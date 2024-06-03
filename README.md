@@ -1,4 +1,4 @@
-# Confluent Cloud Heatbeat
+# Confluent Cloud Heartbeat Health Check
 
 An app to monitor a Confluent Cloud cluster, and:
 - verify each broker in a CC cluster is reachable
