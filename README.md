@@ -15,7 +15,7 @@ Copy `example_config.ini` to `config.ini` and enter the cluster bootstrap URL an
 python3 -m venv ./venv
 source venv/bin/activate
 python3 -m pip install -r requirements.txt
-python app.py
+python src/app.py
 ```
 
 
