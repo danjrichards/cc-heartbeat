@@ -45,7 +45,7 @@ heartbeat_connection_check_count{{cluster_id={store.get('cluster_info').cluster_
 
         # optionally: add consumer group lag?
 
-        # TODO: clear the store - is this the right thing to do?
+        # clear the latencies - is this the right thing to do?
         store.resetMetrics()
         return web.Response(text=txt)
 

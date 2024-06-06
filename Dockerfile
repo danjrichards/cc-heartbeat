@@ -30,4 +30,4 @@ ENV PYTHONUNBUFFERED=1
 ENV VIRTUAL_ENV=/home/heartbeat/venv
 ENV PATH="/home/heartbeat/venv/bin:$PATH"
 
-CMD ["python", "app.py"]
+CMD ["python", "src/app.py"]

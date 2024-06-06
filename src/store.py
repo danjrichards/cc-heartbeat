@@ -21,13 +21,14 @@ class HeartbeatStore:
 
     def resetMetrics(self):
         with self.lock:
-            self.store['connection_checks'] = 0
+            # don't reset the counters - can use rate() in Grafana to plot these at the desired granularity
+            # self.store['connection_checks'] = 0
             self.store['connection_latency_ms'] = {}
             for b in self.store['brokers']:
                 self.store['connection_latency_ms'][b] = 0
-            self.store['messages_produced'] = 0
+            # self.store['messages_produced'] = 0
             self.store['average_produce_latency_ms'] = 0
-            self.store['messages_consumed'] = 0
+            # self.store['messages_consumed'] = 0
             self.store['average_consume_latency_ms'] = 0
 
     def get(self, key): 
