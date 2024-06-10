@@ -1,0 +1,45 @@
+---
+services:
+  prometheus:
+    hostname: prometheus
+    container_name: prometheus
+    image: prom/prometheus:latest
+    ports:
+      - 9090:9090
+    volumes:
+      - ./docker/prometheus/:/etc/prometheus/
+      - data-prometheus:/prometheus
+
+  grafana:
+    image: grafana/grafana
+    hostname: grafana
+    container_name: grafana
+    depends_on:
+      - prometheus
+    logging:
+      driver: local
+    volumes:
+      - data-grafana:/var/lib/grafana
+      - ./docker/grafana/provisioning/:/etc/grafana/provisioning/
+    environment:
+      GF_SECURITY_ADMIN_USER: admin
+      GF_SECURITY_ADMIN_PASSWORD: admin
+      GF_USERS_ALLOW_SIGN_UP: false
+      GF_INSTALL_PLUGINS: grafana-piechart-panel
+    ports:
+      - 3000:3000
+
+  cc_heartbeat:
+    build: ./
+    hostname: cc_heartbeat
+    container_name: cc_heartbeat
+    logging:
+      driver: local
+    volumes:
+      - ./:/home/heartbeat/
+    ports:
+      - 8080:8080
+
+volumes:
+  data-prometheus:
+  data-grafana:

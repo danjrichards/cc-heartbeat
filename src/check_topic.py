@@ -12,6 +12,7 @@ def checkTopic(adminApi, store):
     period = int(store.get('config')["admin"]["check.topic.period.seconds"] or 3600)
     log = logging.getLogger(__name__)
     log.info(f"checkTopic started - will run every {period} seconds")
+    retention_ms = 60*60*24*1000
 
     while True:
         start = time()
@@ -44,7 +45,7 @@ def checkTopic(adminApi, store):
                             topic,
                             num_partitions=brokerCount,
                             replication_factor=3,  # in CC replication factor must always be 3
-                            config={"retention.ms": 1440000}    # retention = 1 day
+                            config={"retention.ms": retention_ms}
                         )
                     ]
                 )

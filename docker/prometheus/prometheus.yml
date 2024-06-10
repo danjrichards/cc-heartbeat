@@ -1,0 +1,25 @@
+# ingest the metrics from cc-heartbeat
+scrape_configs:
+  - job_name: 'cc-heartbeat'
+    scrape_interval: 15s
+    static_configs:
+         - targets: ['cc_heartbeat:8080']
+  - job_name: 'Confluent Cloud Heartbeat'
+    scrape_interval: 15s
+    scrape_timeout: 12s
+    honor_timestamps: true
+    # static_configs:
+    #   - targets:
+    #     - 'api.telemetry.confluent.cloud'
+    scheme: http
+    # basic_auth:
+    #   username: 'CONFLUENT-CLOUD-USERNAME'
+    #   password: 'CONFLUENT-CLOUD-PASSWORD'
+    # metrics_path: '/'
+    # params:
+    #   "resource.kafka.id":
+    #     - 'lkc-1234' # CUSTOMIZE ME
+    #     - 'lkc-2345' # CUSTOMIZE ME
+      # "resource.connector.id":
+      #   - lcc-1234
+      #   - lcc-2345

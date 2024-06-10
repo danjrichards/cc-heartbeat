@@ -17,6 +17,20 @@ source venv/bin/activate
 python3 -m pip install -r requirements.txt
 python src/app.py
 ```
+- or in Docker
+```sh
+docker build --tag 'cc_heartbeat' .
+docker run --init --name cc_heartbeat -it -p 8080:8080 cc_heartbeat
+```
+
+- or with Prometheus and Grafana in docker-compose
+```sh
+docker-compose up -d
+open http://localhost:3000
+```
+- Grafana: http://localhost:3000
+- Prometheus: http://localhost:9090
+- CC-Heartbeat: http://localhost:8080
 
 
 ## Example OpenTelemetry response
@@ -24,31 +38,31 @@ python src/app.py
 # Confluent Cloud heartbeat metrics
 # HELP heartbeat_controller The cluster controller broker ID
 # TYPE heartbeat_controller gauge
-heartbeat_controller{cluster_id=lkc-z306v3} 2
+heartbeat_controller{cluster_id="lkc-z306v3"} 3
 # HELP heartbeat_messages_produced Count of messages produced since the last metric scrape
 # TYPE heartbeat_messages_produced counter
-heartbeat_messages_produced{cluster_id=lkc-z306v3} 44
+heartbeat_messages_produced{cluster_id="lkc-z306v3"} 840
 # HELP heartbeat_avg_produce_latency_ms Average latency for the messages produced since the last metric scrape
 # TYPE heartbeat_avg_produce_latency_ms gauge
-heartbeat_avg_produce_latency_ms{cluster_id=lkc-z306v3} 93.12
+heartbeat_avg_produce_latency_ms{cluster_id="lkc-z306v3"} 86.95
 # HELP heartbeat_messages_consumed Count of messages consumed since the last metric scrape
 # TYPE heartbeat_messages_consumed counter
-heartbeat_messages_consumed{cluster_id=lkc-z306v3} 46
+heartbeat_messages_consumed{cluster_id="lkc-z306v3"} 840
 # HELP heartbeat_avg_consume_latency_ms Average end-to-end latency for the messages consumed since the last metric scrape
 # TYPE heartbeat_avg_consume_latency_ms gauge
-heartbeat_avg_consume_latency_ms{cluster_id=lkc-z306v3} 251.95
+heartbeat_avg_consume_latency_ms{cluster_id="lkc-z306v3"} 9.68
 # HELP heartbeat_broker_count Count of brokers
 # TYPE heartbeat_broker_count counter
-heartbeat_broker_count{cluster_id=lkc-z306v3} 4
+heartbeat_broker_count{cluster_id="lkc-z306v3"} 4
 # HELP heartbeat_connection_check_count Count of network connection checks to the brokers since the last metric scrape
 # TYPE heartbeat_connection_check_count counter
-heartbeat_connection_check_count{cluster_id=lkc-z306v3} 8
+heartbeat_connection_check_count{cluster_id="lkc-z306v3"} 185
 # HELP heartbeat_connection_latency_ms Average latency for the network connection checks to each broker since the last metric scrape
 # TYPE heartbeat_connection_latency_ms gauge
-heartbeat_connection_latency_ms{broker=0, cluster_id=lkc-z306v3, broker_ip=54.226.213.183} 299.36
-heartbeat_connection_latency_ms{broker=1, cluster_id=lkc-z306v3, broker_ip=54.165.2.234} 180.70
-heartbeat_connection_latency_ms{broker=2, cluster_id=lkc-z306v3, broker_ip=54.208.145.132} 130.14
-heartbeat_connection_latency_ms{broker=3, cluster_id=lkc-z306v3, broker_ip=52.44.8.37} 106.34
+heartbeat_connection_latency_ms{broker="0", cluster_id="lkc-z306v3", broker_ip="52.3.7.93"} 1.64
+heartbeat_connection_latency_ms{broker="1", cluster_id="lkc-z306v3", broker_ip="54.165.2.234"} 1.11
+heartbeat_connection_latency_ms{broker="2", cluster_id="lkc-z306v3", broker_ip="54.172.26.66"} 0.96
+heartbeat_connection_latency_ms{broker="3", cluster_id="lkc-z306v3", broker_ip="54.162.178.249"} 1.15
 ```
 
 

@@ -23,7 +23,7 @@ def consume(config, store):
             elif msg.error():
                 log.error(f"ERROR: {msg.error()}")
             else:
-                key = msg.key().decode('utf-8')
+                # key = msg.key().decode('utf-8')
                 value = msg.value().decode('utf-8')
                 val_time = json.loads(value)['timestamp']
                 latency_ms = (time() - float(val_time)) * 1000
@@ -33,6 +33,8 @@ def consume(config, store):
             consumer.commit(asynchronous=True)
             sleep(0.1)
 
+    except Exception as e:
+        log.error(f"Error consuming: {e}")
     except KeyboardInterrupt:
         pass
     finally:
