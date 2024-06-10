@@ -307,7 +307,7 @@
               "uid": "PD643B4DA29D43176"
             },
             "editorMode": "code",
-            "expr": "rate(heartbeat_messages_produced[30s])",
+            "expr": "increase(heartbeat_messages_produced[1m])",
             "instant": false,
             "legendFormat": "Produced",
             "range": true,
@@ -319,7 +319,7 @@
               "uid": "PD643B4DA29D43176"
             },
             "editorMode": "code",
-            "expr": "rate(heartbeat_messages_consumed[30s])",
+            "expr": "increase(heartbeat_messages_consumed[1m])",
             "hide": false,
             "instant": false,
             "legendFormat": "Consumed",
@@ -462,7 +462,7 @@
         "type": "stat"
       }
     ],
-    "refresh": "",
+    "refresh": "30s",
     "schemaVersion": 38,
     "style": "dark",
     "tags": [],
@@ -477,6 +477,6 @@
     "timezone": "",
     "title": "CC Heartbeat",
     "uid": "dbfb9cf9-0f5f-41fa-8d8e-10716e092a62",
-    "version": 2,
+    "version": 4,
     "weekStart": ""
   }
