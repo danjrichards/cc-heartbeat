@@ -36,9 +36,6 @@ open http://localhost:3000
 ## Example OpenTelemetry response
 ```yaml
 # Confluent Cloud heartbeat metrics
-# HELP heartbeat_controller The cluster controller broker ID
-# TYPE heartbeat_controller gauge
-heartbeat_controller{cluster_id="lkc-z306v3"} 3
 # HELP heartbeat_messages_produced Count of messages produced since the last metric scrape
 # TYPE heartbeat_messages_produced counter
 heartbeat_messages_produced{cluster_id="lkc-z306v3"} 840
@@ -66,10 +63,60 @@ heartbeat_connection_latency_ms{broker="3", cluster_id="lkc-z306v3", broker_ip="
 ```
 
 
+## Example topic response
+`curl http://localhost:8080/topics`
+
+```yaml
+# Confluent Cloud heartbeat - topics
+# HELP heartbeat_topic_count The number of topics per cluster
+# TYPE heartbeat_topic_count gauge
+heartbeat_topic_count{cluster_id="lkc-z306v3"} 171
+# HELP heartbeat_topic_partition_count The number of partitions in this topic
+# TYPE heartbeat_topic_partition_count gauge
+# HELP heartbeat_topic_partition_leader The partition leader for each topic
+# TYPE heartbeat_topic_partition_leader gauge
+heartbeat_topic_partition_count{cluster_id="lkc-z306v3", topic_name="movie_ticket_sales"} 6
+heartbeat_topic_partition_leader{cluster_id="lkc-z306v3", topic_name="movie_ticket_sales", partition="0"} 1
+heartbeat_topic_partition_leader{cluster_id="lkc-z306v3", topic_name="movie_ticket_sales", partition="1"} 2
+heartbeat_topic_partition_leader{cluster_id="lkc-z306v3", topic_name="movie_ticket_sales", partition="2"} 1
+heartbeat_topic_partition_leader{cluster_id="lkc-z306v3", topic_name="movie_ticket_sales", partition="3"} 0
+heartbeat_topic_partition_leader{cluster_id="lkc-z306v3", topic_name="movie_ticket_sales", partition="4"} 0
+heartbeat_topic_partition_leader{cluster_id="lkc-z306v3", topic_name="movie_ticket_sales", partition="5"} 2
+heartbeat_topic_partition_count{cluster_id="lkc-z306v3", topic_name="_confluent-ksql-pksqlc-7y9qvpquery_CTAS_TEST_81-Aggregate-GroupBy-repartition"} 6
+heartbeat_topic_partition_leader{cluster_id="lkc-z306v3", topic_name="_confluent-ksql-pksqlc-7y9qvpquery_CTAS_TEST_81-Aggregate-GroupBy-repartition", partition="0"} 1
+heartbeat_topic_partition_leader{cluster_id="lkc-z306v3", topic_name="_confluent-ksql-pksqlc-7y9qvpquery_CTAS_TEST_81-Aggregate-GroupBy-repartition", partition="1"} 2
+...
+# HELP heartbeat_partition_count The number of partitions per cluster
+# TYPE heartbeat_partition_count gauge
+heartbeat_partition_count{cluster_id="lkc-z306v3"} 907
+```
+
+
+## Example consumer-groups response
+`curl http://localhost:8080/consumer-groups`
+
+```yaml
+# Confluent Cloud heartbeat - consumer groups
+# HELP heartbeat_cg_count The number of consumer groups
+# TYPE heartbeat_cg_count gauge
+heartbeat_cg_count{cluster_id="lkc-z306v3"} 7
+# HELP heartbeat_cg_member_count The number of members of the consumer group
+# TYPE heartbeat_cg_member_count gauge
+heartbeat_cg_member_count{cluster_id="lkc-z306v3"}, group_id="cc-heartbeat-cg"} 1
+heartbeat_cg_member_count{cluster_id="lkc-z306v3"}, group_id="confluent_cli_consumer_62d99174-69e8-438b-b874-34ed34f8d85a"} 0
+heartbeat_cg_member_count{cluster_id="lkc-z306v3"}, group_id="_confluent-flink_workspace-2024-12-11-182938-f3dcd72c-a7b3-428c-9374-292d3d5579d8_da8348b4-b5d7-4c25-acdb-6e4365737c3b_2809"} 0
+heartbeat_cg_member_count{cluster_id="lkc-z306v3"}, group_id="_confluent-flink_workspace-2024-12-11-182938-77a768b9-3cb4-44bd-9537-3459755db7f4_198e2b77-27a4-49bb-8431-b50ad4ea910f_7652"} 0
+heartbeat_cg_member_count{cluster_id="lkc-z306v3"}, group_id="_confluent-flink_workspace-2024-12-11-182938-536df26b-1bb3-44c0-88e1-781f00fc09ca_211e2378-7c5f-4a53-9860-b760f46a9341_2389"} 0
+# HELP heartbeat_cg_members_total_count The number of consumer group members per cluster
+# TYPE heartbeat_cg_members_total_count gauge
+heartbeat_cg_members_total_count{cluster_id="lkc-z306v3"} 1
+```
+
+
 ## Example log output
 ```log
 2024-06-03 12:56:42,481 INFO     Starting cc-heartbeat against pkc-5roon.us-east-1.aws.confluent.cloud:9092
-2024-06-03 12:56:44,362 INFO     4 brokers in lkc-z306v3 - controller is -1
+2024-06-03 12:56:44,362 INFO     4 brokers in lkc-z306v3
 2024-06-03 12:56:44,362 INFO       0: name: b0, rack: use1-az5
 2024-06-03 12:56:44,362 INFO       1: name: b1, rack: use1-az5
 2024-06-03 12:56:44,362 INFO       2: name: b2, rack: use1-az5
@@ -85,7 +132,6 @@ heartbeat_connection_latency_ms{broker="3", cluster_id="lkc-z306v3", broker_ip="
 ...
 ```
 
-It's expected to get the "Offset out of range" errors on initial startup.
 
 
 ## TODO:

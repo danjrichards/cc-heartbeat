@@ -27,28 +27,35 @@ async def checkConnectivityAsync(store):
     while True:
         start = time()
         brokers = store.get('brokers')
-        for b in brokers:
-            conn = None
-            connection_made_time = None
+        # wait if we haven't got the metadata yet
+        try:
+        # if len(brokers) == 0:
+        #     continue
 
-            try:
-                async with asyncio.timeout(timeout):
-                    conn = await loop.create_connection(NoopProtocol, brokers[b].host, brokers[b].port)
-                    # this next line returns the remote IP and port as a tuple - e.g. ('54.225.197.43', 9092)
-                    sock = conn[0]._extra['peername']  # type: ignore
-                    latency_ms = (time() - connection_made_time) * 1000000 if connection_made_time else -1
-                    if sock is not None:
-                        # result[brokers[b].host] = { "timestamp": time(), "ip": sock[0], "latency": latency_ms }
-                        log.debug(f"✅ {brokers[b].host} = {sock[0]} - {latency_ms:0.2f}ms")
-                        store.addConnectionCheck(b, latency_ms, sock[0])
-                    else:
-                        log.warning(f"Connection failed to {brokers[b].host}:{brokers[b].port}")
-                        store.addConnectionCheck(b, timeout*1000)   # TODO: what's the right value to signify a failed connection that didn't time out?
+            for b in brokers:
+                conn = None
+                connection_made_time = None
 
-            except TimeoutError:
-                log.warning(f"Connection timed out to {brokers[b].host}:{brokers[b].port}")
-                store.addConnectionCheck(b, timeout*1000)
+                try:
+                    async with asyncio.timeout(timeout):
+                        conn = await loop.create_connection(NoopProtocol, brokers[b].host, brokers[b].port)
+                        # this next line returns the remote IP and port as a tuple - e.g. ('54.225.197.43', 9092)
+                        sock = conn[0]._extra['peername']  # type: ignore
+                        latency_ms = (time() - connection_made_time) * 1000000 if connection_made_time else -1
+                        if sock is not None:
+                            # result[brokers[b].host] = { "timestamp": time(), "ip": sock[0], "latency": latency_ms }
+                            log.debug(f"✅ {brokers[b].host} = {sock[0]} - {latency_ms:0.2f}ms")
+                            store.addConnectionCheck(b, latency_ms, sock[0])
+                        else:
+                            log.warning(f"Connection failed to {brokers[b].host}:{brokers[b].port}")
+                            store.addConnectionCheck(b, timeout*1000)   # TODO: what's the right value to signify a failed connection that didn't time out?
 
+                except TimeoutError:
+                    log.warning(f"Connection timed out to {brokers[b].host}:{brokers[b].port}")
+                    store.addConnectionCheck(b, timeout*1000)
+        except Exception as e:
+            log.error(f"Error in check_connectivity: {e}")
+            
         # take the elapsed time out of the repeat period and sleep for that long
         delay = time() - start
         if delay > 0 and delay < period:

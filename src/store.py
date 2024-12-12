@@ -6,10 +6,10 @@ class HeartbeatStore:
             "config": config,
             "topic": config["admin"]["heartbeat.topic"] or "cc-heartbeat",
             "cluster_info": {},
-            "controller": -1,
             "metadata": {},
             "brokers": [],
             "broker_ip": {},
+            "consumer_groups": {},
             "connection_checks": 0,
             "connection_checks_delta": 0,     # count since last metrics scrape
             "connection_latency_ms": {},
@@ -48,15 +48,15 @@ class HeartbeatStore:
         with self.lock:
             self.store['cluster_info'] = cluster_info
 
-    def setController(self, controller):
-        with self.lock:
-            self.store['controller'] = controller
-
     def setMetadata(self, metadata):
         with self.lock:
             self.store['metadata'] = metadata
             self.store['brokers'] = metadata.brokers
-            self.store['controller'] = metadata.controller_id
+            # self.store['controller'] = metadata.controller_id
+
+    def setConsumerGroups(self, consumer_groups):
+        with self.lock:
+            self.store['consumer_groups'] = consumer_groups
 
     def addConnectionCheck(self, broker, latency, broker_ip=''):
         if broker not in self.store['connection_latency_ms']:

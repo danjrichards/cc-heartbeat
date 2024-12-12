@@ -45,7 +45,6 @@ def produce(config, store):
 
         except Exception as e:
             log.error(f"Producer error: {e}")
-            sys.exit(1)
 
         finally:
             pass

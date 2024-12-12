@@ -3,3 +3,4 @@ venv/
 
 config.ini
 cc-heartbeat.log
+.DS_Store

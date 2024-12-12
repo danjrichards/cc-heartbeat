@@ -15,14 +15,10 @@ def checkMetadata(adminApi, store):
         log.debug(f"checkMetadata iteration")
 
         prevBrokers = store.get('brokers')
-        prevController = store.get('controller')
         metadata = adminApi.list_topics(timeout=30)
-        store.setMetadata(metadata)     # this populates store.metadata, store.brokers and store.controller
+        store.setMetadata(metadata)     # this populates store.metadata and store.brokers
 
         # compare previous and latest metadata & flag changes
-        if prevController > 0 and prevController != store.get('controller'):
-            log.warn(f"Controller changed from {prevController} to {store.get('controller')}")
-
         if len(prevBrokers) > 0 and len(prevBrokers) != len(store.get('brokers')):
             log.warn(f"Broker count changed from {len(prevBrokers)} to {len(store.get('brokers'))}")
         else:

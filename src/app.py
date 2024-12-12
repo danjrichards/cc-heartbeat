@@ -7,6 +7,7 @@ from check_metadata import checkMetadata
 from check_connectivity import checkConnectivity
 from producer import produce
 from consumer import consume
+from consumer_groups import consumerGroups
 from prom_exporter import promExporter
 from log_config import configureLogging
 import logging
@@ -28,7 +29,7 @@ async def main():
 
     # startup messages
     log.info(
-        f"{len(store.get('cluster_info').nodes)} brokers in {store.get('cluster_info').cluster_id} - controller is {store.get('controller')}"
+        f"{len(store.get('cluster_info').nodes)} brokers in {store.get('cluster_info').cluster_id}"
     )
     for node in store.get('cluster_info').nodes:
         log.info(f"  {node.id}: name: {node.host.replace('-' + bootstrap, '')}, rack: {node.rack}")
@@ -42,6 +43,8 @@ async def main():
     # make a network connection to each broker to ensure it's reachable
     threading.Thread(target=checkConnectivity, args=(store,)).start()
 
+    # fetch the topic partition and consumer group details
+    threading.Thread(target=consumerGroups, args=(adminApi, conf, store)).start()
 
     # long-lived producer to send message to each partition in the heartbeat topic
     threading.Thread(target=produce, args=(conf, store)).start()
