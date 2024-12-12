@@ -7,6 +7,8 @@ An app to monitor a Confluent Cloud cluster, and:
 
 In CC the replication factor is always 3 and can't be changed, so we can't ensure a topic has a partition on every broker in a cluster.  Instead, we can do a network connectivity check to each broker, and have a heartbeat of topic produce/consume to verify end-to-end functioning of the cluster and networks between client and brokers.
 
+The high-level specification for this app is written up in the PDF included in this repo.
+
 
 ## Setup
 Copy `example_config.ini` to `config.ini` and enter the cluster bootstrap URL and authentication details
@@ -33,7 +35,14 @@ open http://localhost:3000
 - CC-Heartbeat: http://localhost:8080
 
 
+## Grafana dashboard
+
+![Grafana dasboard screenshot](cc-heartbeat-screenshot.png?raw=true "Grafana dasboard screenshot")
+
+
 ## Example OpenTelemetry response
+`curl http://localhost:8080/`
+
 ```yaml
 # Confluent Cloud heartbeat metrics
 # HELP heartbeat_messages_produced Count of messages produced since the last metric scrape
